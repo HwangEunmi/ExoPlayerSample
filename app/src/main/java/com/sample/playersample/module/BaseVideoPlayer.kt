@@ -13,26 +13,22 @@ import com.google.android.exoplayer2.upstream.DefaultAllocator
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
 
-open class BaseVideoPlayer : PlayerHelper.IVideoActionListener {
+open class BaseVideoPlayer(context: Context, var pvView: PlayerView?) : PlayerHelper.IVideoActionListener {
 
     // 기본 플레이어
     private var mExoPlayer: SimpleExoPlayer? = null
 
     private var mExtractorFactory: ExtractorMediaSource.Factory? = null
 
-    // 플레이어 뷰
-    var mPvView: PlayerView? = null
-
-    constructor(context: Context, videoView: PlayerView) {
+    init {
         initPlayer(context)
-        this.mPvView = videoView
     }
-
 
     /**
      * 플레이어 초기화하기
      */
     override fun initPlayer(context: Context) {
+        if (mExoPlayer != null) return
         val loadControl = DefaultLoadControl.Builder()
             .setAllocator(DefaultAllocator(true, 16))
             .setBufferDurationsMs(2000, 5000, 1500, 2000)
@@ -58,7 +54,7 @@ open class BaseVideoPlayer : PlayerHelper.IVideoActionListener {
      * 플레이어 등록하기
      */
     override fun registerPlayer() {
-        mPvView?.player = mExoPlayer
+        pvView?.player = mExoPlayer
     }
 
     /**
@@ -67,7 +63,7 @@ open class BaseVideoPlayer : PlayerHelper.IVideoActionListener {
     override fun resumeVideo() {
         if (isStateRunning()) return
 
-        mPvView?.let {
+        pvView?.let {
             if (!it.player.playWhenReady) {
                 it.player.playWhenReady = true
             }
@@ -80,7 +76,7 @@ open class BaseVideoPlayer : PlayerHelper.IVideoActionListener {
     override fun pauseVideo() {
         if (!isStateRunning()) return
 
-        mPvView?.let {
+        pvView?.let {
             if (it.player.playWhenReady) {
                 it.player.playWhenReady = false
             }
@@ -99,7 +95,7 @@ open class BaseVideoPlayer : PlayerHelper.IVideoActionListener {
      * 플레이어의 재생상태 리턴하기
      */
     override fun isStateRunning(): Boolean {
-        return mPvView?.let { it.player.playWhenReady } ?: true
+        return pvView?.let { it.player.playWhenReady } ?: true
     }
 
     /**

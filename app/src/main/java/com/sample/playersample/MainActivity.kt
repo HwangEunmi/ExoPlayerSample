@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initVideoView() {
         mVideoPlayer = CustomVideoPlayer(this, mBinding.playerView)
-        mVideoPlayer.setIVideoInfoListener(object : PlayerHelper.IVideoInfoListener() {
+        PlayerHelper.setIVideoInfoListener(object : PlayerHelper.IVideoInfoListener() {
             override fun onVideoStateChange(playState: Int, isStateRunning: Boolean) {
                 super.onVideoStateChange(playState, isStateRunning)
                 when (playState) {

@@ -35,7 +35,7 @@ object PlayerHelper {
             context?.let {
                 when (msg.what) {
                     TYPE_VIDEO_TIME -> {
-                        it.mPvView?.player?.currentPosition?.let { ct ->
+                        it.pvView?.player?.currentPosition?.let { ct ->
                             getCurrentTime(ct)
                         }
                         sendEmptyMessageDelayed(TYPE_VIDEO_TIME, 1000)
@@ -79,6 +79,13 @@ object PlayerHelper {
             super.onVideoSizeChanged(width, height, unappliedRotationDegrees, pixelWidthHeightRatio)
             mVideoInfoListener?.let { it.onVideoSize(width, height, pixelWidthHeightRatio) }
         }
+    }
+
+    /**
+     * 비디오 관련 정보 Listener 등록하기
+     */
+    fun setIVideoInfoListener(listener: IVideoInfoListener) {
+        mVideoInfoListener = listener
     }
 
 

@@ -3,19 +3,18 @@ package com.sample.playersample.module
 import android.content.Context
 import com.google.android.exoplayer2.ui.PlayerView
 
-class CustomVideoPlayer : BaseVideoPlayer {
+class CustomVideoPlayer(context: Context, pvView: PlayerView?) : BaseVideoPlayer(context, pvView) {
 
     // 영상 재생시간 Handler
     private var mTimeHandler: PlayerHelper.TimeHandler
 
-
-    constructor(context: Context, videoView: PlayerView) : super(context, videoView) {
+    init {
         this.mTimeHandler = PlayerHelper.TimeHandler(this)
     }
 
     override fun registerPlayer() {
         super.registerPlayer()
-        mPvView?.player?.addListener(PlayerHelper.onPlayerInfoListener)
+        pvView?.player?.addListener(PlayerHelper.onPlayerInfoListener)
     }
 
     override fun resumeVideo() {
@@ -32,7 +31,7 @@ class CustomVideoPlayer : BaseVideoPlayer {
 
     override fun releaseVideo() {
         super.releaseVideo()
-        mPvView?.let {
+        pvView?.let {
             it.player.removeListener(PlayerHelper.onPlayerInfoListener)
             it.player.videoComponent?.removeVideoListener(PlayerHelper.onVideoSizeListener)
         }
@@ -41,20 +40,13 @@ class CustomVideoPlayer : BaseVideoPlayer {
     /**
      * 영상의 현재 재생위치 리턴하기
      */
-    fun getCurrentPosition(): Long = mPvView?.player?.currentPosition ?: 0
+    fun getCurrentPosition(): Long = pvView?.player?.currentPosition ?: 0
 
     /**
      * 영상 사이즈 리턴 Listener 등록하기
      */
     fun addVideoSizeListener() {
-        mPvView?.let { it.player?.videoComponent?.addVideoListener(PlayerHelper.onVideoSizeListener) }
-    }
-
-    /**
-     * 비디오 관련 정보 Listener 등록하기
-     */
-    fun setIVideoInfoListener(listener: PlayerHelper.IVideoInfoListener) {
-        PlayerHelper.mVideoInfoListener = listener
+        pvView?.let { it.player?.videoComponent?.addVideoListener(PlayerHelper.onVideoSizeListener) }
     }
 
 }
