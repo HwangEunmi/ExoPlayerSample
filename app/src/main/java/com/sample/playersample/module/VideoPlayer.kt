@@ -31,9 +31,6 @@ class VideoPlayer : BaseVideoPlayer() {
         const val TYPE_VIDEO = 0
     }
 
-    /**
-     * 플레이어 리스너 추가하기
-     */
     fun addListener(listener: InfoListener, sectionListener: SectionListener) {
         this.infoListener = listener
         this.sectionListener = sectionListener
@@ -77,9 +74,6 @@ class VideoPlayer : BaseVideoPlayer() {
         super.releaseVideo()
     }
 
-    /**
-     * 영상 불러오기
-     */
     fun loadVideo(
         millis: Long,
         movie: MovieModel,
@@ -88,9 +82,6 @@ class VideoPlayer : BaseVideoPlayer() {
         load(millis, movie.url)
     }
 
-    /**
-     * 영상 재생이 완료되었을때 호출한다.
-     */
     fun onComplete() {
         sectionListener?.onVideoSection(SectionType.END)
     }
@@ -181,7 +172,9 @@ class VideoPlayer : BaseVideoPlayer() {
         infoListener?.let { it.onVideoTime(hour, minute, second) }
     }
 
-
+    /**
+     * UI 갱신 Handler
+     */
     class UiHandler(context: VideoPlayer) : Handler(Looper.getMainLooper()) {
         private val ref: WeakReference<VideoPlayer> = WeakReference(context)
 
