@@ -87,7 +87,7 @@ open class BaseVideoPlayer : ControlListener {
      * 타입별 따른 영상 MediaSource 리턴하기
      */
     private fun buildMediaSource(uri: Uri): MediaSource {
-        val userAgent = "KakaoVXPlayer"
+        val userAgent = "Player"
         val extension = getDeterminedExtension(uri.lastPathSegment)
         return when (extension) {
             ExtensionType.HLS ->
