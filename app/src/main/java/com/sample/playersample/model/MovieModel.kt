@@ -1,3 +1,3 @@
 package com.sample.playersample.model
 
-data class MainModel(val url: String)
+data class MovieModel(val url: String)
